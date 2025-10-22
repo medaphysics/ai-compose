@@ -1,0 +1,11 @@
+files/*
+!files/.gitkeep
+tmp/*
+!tmp/.gitkeep
+logs/
+!logs/.gitkeep
+cache/
+!cache/.gitkeep
+
+
+
