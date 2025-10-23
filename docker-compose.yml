@@ -1,13 +1,13 @@
 version: "3.8"
 
 services:
-  python-app-ai:
+  python-ai-app:
     build:
-      context: .containers/tools
+      context: .containers/ai
       dockerfile: Dockerfile
     hostname: tree
-    image: tree-app:latest
-    container_name: python-tree-app
+    image: python-ai-app:latest
+    container_name: python-ai-app
     restart: no
     working_dir: /app
     command: sleep infinity
@@ -28,7 +28,71 @@ services:
       - /dev/dri  # (isteğe bağlı, grafik hızlandırma gerekiyorsa)
     stdin_open: true
     tty: true
-
+  python-folder-tools:
+    build:
+      context: .containers/folder-tools
+      dockerfile: Dockerfile
+    hostname: tree
+    image: python-ai-app:latest
+    container_name: python-folder-tools
+    restart: no
+    working_dir: /app
+    command: sleep infinity
+    environment:
+      # Zaman damgalarının doğru olduğu timezone
+      - TZ=Europe/Istanbul
+      - DISPLAY=${DISPLAY}
+      - PULSE_SERVER=unix:/run/user/1000/pulse/native
+      # - SDL_AUDIODRIVER: dummy
+    volumes:
+      - ./:/app:cached
+      - /tmp/.X11-unix:/tmp/.X11-unix           # GUI erişimi için
+      - /run/user/1000/pulse:/run/user/1000/pulse
+    user: "${UID}:${GID}"
+    network_mode: host  # DISPLAY için gerekli (Linux'ta)
+    devices:
+      - /dev/snd  # (isteğe bağlı, ses gerekiyorsa)
+      - /dev/dri  # (isteğe bağlı, grafik hızlandırma gerekiyorsa)
+    stdin_open: true
+    tty: true
+  python-tensor-flow-app:
+    build:
+      context: .containers/tensor-flow
+      dockerfile: Dockerfile
+    hostname: tree
+    image: python-tensor-flow-app:latest
+    container_name: python-tensor-flow-app
+    restart: no
+    working_dir: /app
+    command: sleep infinity
+    runtime: nvidia
+    environment:
+      # Zaman damgalarının doğru olduğu timezone
+      - TZ=Europe/Istanbul
+      - DISPLAY=${DISPLAY}
+      - PULSE_SERVER=unix:/run/user/1000/pulse/native
+      - NVIDIA_VISIBLE_DEVICES= all
+      - NVIDIA_DRIVER_CAPABILITIES= all
+      # - SDL_AUDIODRIVER: dummy
+    volumes:
+      - ./:/app:cached
+      - /tmp/.X11-unix:/tmp/.X11-unix           # GUI erişimi için
+      - /run/user/1000/pulse:/run/user/1000/pulse
+    user: "${UID}:${GID}"
+    network_mode: host  # DISPLAY için gerekli (Linux'ta)
+    devices:
+      - /dev/snd  # (isteğe bağlı, ses gerekiyorsa)
+      - /dev/dri  # (isteğe bağlı, grafik hızlandırma gerekiyorsa)
+    stdin_open: true
+    tty: true
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+          
     # Eğer container’ı DEBUG seviyesinde veya INFO/DEBUG ayarlı çalıştırmak istersen:
     # command: ["python", "-u", "logging_app.py", "-vv"]
   

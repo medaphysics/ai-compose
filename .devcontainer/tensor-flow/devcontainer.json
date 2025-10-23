@@ -1,11 +1,11 @@
 {
-  "name": "Tools Python",
+  "name": "Tensor Flow Python",
   "dockerComposeFile": [
     "../../docker-compose.yml"
   ],
-  "service": "python-app-ai",
+  "service": "python-tensor-flow-app",
   "shutdownAction": "none",
-  "workspaceFolder": "/app/files/",
+  "workspaceFolder": "/app/files/MNISTFirst",
   // "runServices": [
   //   "api-dev",
   //   "db"

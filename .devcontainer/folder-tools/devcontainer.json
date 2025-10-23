@@ -1,0 +1,63 @@
+{
+  "name": "Python Folder Tools",
+  "dockerComposeFile": [
+    "../../docker-compose.yml"
+  ],
+  "service": "python-ai-app",
+  "shutdownAction": "none",
+  "workspaceFolder": "/app/files/",
+  // "runServices": [
+  //   "api-dev",
+  //   "db"
+  // ], // web-dev gerekmez
+  // "forwardPorts": [
+  //   4000,
+  //   "db:3307"
+  // ],
+
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "python.formatting.provider": "black",
+        "editor.formatOnSave": true,
+        "python.linting.enabled": true,
+        "python.linting.flake8Enabled": true
+      },
+      "python": {
+        "pythonPath": "/usr/local/bin/python3",
+        "pythonVersion": "3.11"
+      },
+      "terminal.integrated.env.linux": {
+        "PYTHONPATH": "/app/files/"
+      },
+      "python.analysis.typeCheckingMode": "basic",
+      "python.analysis.diagnosticMode": "workspace",
+      "python.analysis.autoSearchPaths": true,
+      "python.analysis.useLibraryCodeForTypes": true,
+      "python.analysis.indexing": true,
+      "python.analysis.indexingDelay": 1000,
+      "python.analysis.logLevel": "Error"
+    },
+    "extensions": {
+      "recommendations": [
+        "ms-python.python",              // Python dili desteği
+        "ms-python.vscode-pylance",      // Pylance dil sunucusu (hızlı ve zeki tamamlama)
+        "ms-toolsai.jupyter",            // Jupyter notebook desteği
+        "ms-python.black-formatter",     // Black formatlayıcı (opsiyonel ama popüler)
+        "ms-python.isort",               // İçe aktarma sıralayıcı
+        "ms-python.flake8",              // Flake8 linter desteği (opsiyonel)
+        "ms-python.debugpy"              // Debugging altyapısı
+      ],
+      "unwantedRecommendations": [
+        "ms-python.pylint",              // Pylint yerine Flake8 kullanıyoruz
+        "ms-python.autopep8",            // Black formatlayıcı yerine Black kullanıyoruz
+        "ms-python.mypy"                 // Mypy yerine Pylance kullanıyoruz
+      ]
+    }
+  },
+  // "postCreateCommand": "npm install",
+  // "containerEnv": {
+  //   "NODE_ENV": "development",
+  //   "WATCHPACK_POLLING": "true"
+  // }
+}
